@@ -7,7 +7,7 @@ load 'libs/helpers'
 # It seems like 'toolbox run' (or 'enter') doesn't work fine when
 # the workdir is outside the $HOME.
 # This hack is to make the tests work from outside the $HOME.
-CURDIR=$PWD
+readonly CURDIR=$PWD
 
 setup() {
   cd "$HOME" || return 1
@@ -46,7 +46,7 @@ teardown() {
   assert_output --partial "Hello World"
 }
 
-@test "Echo 'hello World' again in the 'running' container after being stopped and exit" {
+@test "Echo 'Hello World' again in the 'running' container after being stopped and exit" {
   create_container running
   stop_container running
 
