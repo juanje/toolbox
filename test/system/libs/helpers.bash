@@ -28,18 +28,24 @@ function get_busybox_image() {
 }
 
 
-function create_default_container() {
-  toolbox --assumeyes create >/dev/null \
-    || echo "Toolbox couldn't create the default container"
-}
-
-
 function create_container() {
   local container_name
+  local version
+  local image
   container_name="$1"
+  version="$DEFAULT_FEDORA_VERSION"
+  image="$REGISTRY_URL/f$version/$TOOLBOX_DEFAULT_IMAGE"
+
+  $PODMAN pull "$image" >/dev/null 2>&1 \
+    || true
 
   $TOOLBOX --assumeyes create --container "$container_name" >/dev/null \
     || echo "Toolbox couldn't create the container '$container_name'"
+}
+
+
+function create_default_container() {
+  create_container "fedora-toolbox-${DEFAULT_FEDORA_VERSION}"
 }
 
 
