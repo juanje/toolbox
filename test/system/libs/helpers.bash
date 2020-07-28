@@ -7,7 +7,6 @@ readonly TOOLBOX=${TOOLBOX:-toolbox}
 # Helpful globals
 current_os_version=$(awk -F= '/VERSION_ID/ {print $2}' /etc/os-release)
 readonly DEFAULT_FEDORA_VERSION=${DEFAULT_FEDORA_VERSION:-${current_os_version}}
-readonly TOOLBOX_DEFAULT_IMAGE="fedora-toolbox:${DEFAULT_FEDORA_VERSION}"
 readonly REGISTRY_URL=${REGISTRY_URL:-"registry.fedoraproject.org"}
 readonly BUSYBOX_IMAGE="docker.io/library/busybox"
 
@@ -28,16 +27,43 @@ function get_busybox_image() {
 }
 
 
+function pull_image() {
+  local version
+  local image
+  local -i count
+  local -i max_retries
+  version="$1"
+  image="${REGISTRY_URL}/f${version}/fedora-toolbox:${version}"
+  count=0
+  max_retries=5
+
+  until ${PODMAN} pull "${image}" >/dev/null ; do
+    sleep 5
+    (( count += 1 ))
+
+    if (( "$count" == "$max_retries" )); then
+      # Max number of retries exceeded
+      echo "Podman couldn't pull the image ${image}."
+      return 1
+    fi
+  done
+}
+
+
+function pull_default_image() {
+  pull_image "${DEFAULT_FEDORA_VERSION}"
+}
+
+
 function create_container() {
   local container_name
   local version
   local image
   container_name="$1"
   version="$DEFAULT_FEDORA_VERSION"
-  image="$REGISTRY_URL/f$version/$TOOLBOX_DEFAULT_IMAGE"
+  image="${REGISTRY_URL}/f${version}/fedora-toolbox:${version}"
 
-  $PODMAN pull "$image" >/dev/null 2>&1 \
-    || true
+  pull_image "$version"
 
   $TOOLBOX --assumeyes create --container "$container_name" \
     --image "$image" >/dev/null \

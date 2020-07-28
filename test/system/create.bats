@@ -14,6 +14,8 @@ teardown() {
 
 
 @test "Create the default container" {
+  pull_default_image
+
   run toolbox -y create
 
   assert_success
@@ -26,6 +28,8 @@ teardown() {
 }
 
 @test "Create a container with a custom image and name ('running';f29)" {
+  pull_image 29
+
   run toolbox -y create -c "running" -i fedora-toolbox:29
 
   assert_success

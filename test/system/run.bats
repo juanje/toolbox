@@ -32,6 +32,7 @@ teardown() {
 # The issue here is that toolbox output add the CRLF character at the end
 @test "Echo 'Hello World' inside of the default container" {
   create_default_container
+
   run toolbox run echo "Hello World"
 
   assert_success
@@ -40,6 +41,7 @@ teardown() {
 
 @test "Echo 'Hello World' inside of the 'running' container" {
   create_container running
+
   run toolbox run --container running echo -n "Hello World"
 
   assert_success
