@@ -32,13 +32,15 @@ function pull_image() {
   local image
   local -i count
   local -i max_retries
+  local -i wait_time
   version="$1"
   image="${REGISTRY_URL}/f${version}/fedora-toolbox:${version}"
   count=0
   max_retries=5
+  wait_time=10
 
   until ${PODMAN} pull "${image}" >/dev/null ; do
-    sleep 5
+    sleep $wait_time
     (( count += 1 ))
 
     if (( "$count" == "$max_retries" )); then
