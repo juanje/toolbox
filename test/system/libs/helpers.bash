@@ -39,7 +39,8 @@ function create_container() {
   $PODMAN pull "$image" >/dev/null 2>&1 \
     || true
 
-  $TOOLBOX --assumeyes create --container "$container_name" >/dev/null \
+  $TOOLBOX --assumeyes create --container "$container_name" \
+    --image "$image" >/dev/null \
     || echo "Toolbox couldn't create the container '$container_name'"
 }
 
