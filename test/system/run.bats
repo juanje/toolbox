@@ -33,7 +33,7 @@ teardown() {
 @test "Echo 'Hello World' inside of the default container" {
   create_default_container
 
-  run toolbox run echo "Hello World"
+  run toolbox --verbose run echo "Hello World"
 
   assert_success
   assert_output --partial "Hello World"
@@ -42,7 +42,7 @@ teardown() {
 @test "Echo 'Hello World' inside of the 'running' container" {
   create_container running
 
-  run toolbox run --container running echo -n "Hello World"
+  run toolbox --verbose run --container running echo -n "Hello World"
 
   assert_success
   assert_output --partial "Hello World"
