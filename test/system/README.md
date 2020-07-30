@@ -21,7 +21,7 @@ $ git clone https://github.com/ztombol/bats-support test/system/libs/bats-suppor
 
 - All tests that start with *Try to..* expect non-zero return value.
 - All the tests start with a clean system (no images or containers) to make sure
-that there are no dependencies btween tests and they are really isolated.
+that there are no dependencies between tests and they are really isolated.
 
 ## How to run the tests
 
