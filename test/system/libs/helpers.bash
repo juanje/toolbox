@@ -37,7 +37,7 @@ function pull_image() {
   image="${REGISTRY_URL}/f${version}/fedora-toolbox:${version}"
   count=0
   max_retries=5
-  wait_time=10
+  wait_time=15
 
   until ${PODMAN} pull "${image}" >/dev/null ; do
     sleep $wait_time
