@@ -21,3 +21,6 @@
     creates: "{{ item.1 }}/manifest.json"
   register: _skopeo
   loop: "{{ registry_urls | zip(toolbox_dirs) | list }}"
+
+- name: Clean up the local registry
+  command: podman system reset --force

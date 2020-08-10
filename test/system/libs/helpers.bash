@@ -4,6 +4,7 @@
 readonly PODMAN=${PODMAN:-podman}
 readonly TOOLBOX=${TOOLBOX:-toolbox}
 readonly SKOPEO=$(command -v skopeo)
+readonly PROJECT_DIR=${PWD}
 
 # Helpful globals
 current_os_version=$(awk -F= '/VERSION_ID/ {print $2}' /etc/os-release)
@@ -35,7 +36,8 @@ function pull_image() {
   image="${REGISTRY_URL}/f${version}/fedora-toolbox:${version}"
 
   # Simulate podman pull by copying the image from a local directory
-  $SKOPEO copy "dir:fedora-toolbox-${version}" "containers-storage:${image}"
+  $SKOPEO copy "dir:${PROJECT_DIR}/fedora-toolbox-${version}" "containers-storage:${image}"
+  $PODMAN images
 }
 
 
