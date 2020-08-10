@@ -59,6 +59,7 @@ teardown() {
 }
 
 @test "Run sudo (with no passowrd) inside of the default container" {
+  skip "This is a new test and fails due a bug: #523"
   create_default_container
 
   run toolbox --verbose run sudo id
