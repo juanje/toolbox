@@ -17,8 +17,8 @@
       nodes:
         - name: ci-node-31
           label: cloud-fedora-31-small
-    pre-run: playbooks/fedora-31/setup-env.yaml
-    run: playbooks/fedora-31/system-test-fedora-31.yaml
+    pre-run: playbooks/setup-env.yaml
+    run: playbooks/system-test.yaml
 
 - job:
     name: system-test-fedora-32
@@ -28,8 +28,8 @@
       nodes:
         - name: ci-node-32
           label: cloud-fedora-32-small
-    pre-run: playbooks/fedora-32/setup-env.yaml
-    run: playbooks/fedora-32/system-test-fedora-32.yaml
+    pre-run: playbooks/setup-env.yaml
+    run: playbooks/system-test.yaml
 
 - job:
     name: system-test-fedora-33
@@ -50,8 +50,8 @@
       nodes:
         - name: ci-node-rawhide
           label: cloud-fedora-rawhide-small
-    pre-run: playbooks/fedora-rawhide/setup-env.yaml
-    run: playbooks/fedora-rawhide/system-test-fedora-rawhide.yaml
+    pre-run: playbooks/setup-env.yaml
+    run: playbooks/system-test.yaml
 
 - project:
     periodic:

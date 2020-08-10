@@ -1,0 +1,46 @@
+---
+- hosts: all
+
+  vars:
+    fedora_versions:
+      - 29
+      - "{{ ansible_distribution_version }}"
+    registry_url: "docker.io/juanje"
+    toolbox_image: "fedora-toolbox"
+    toolbox_dirs: []
+    registry_urls: []
+
+  tasks:
+    - name: Install requirements
+      become: yes
+      package:
+        name:
+          - golang
+          - golang-github-cpuguy83-md2man
+          - ninja-build
+          - meson
+          - flatpak-session-helper
+          - systemd
+          - bats
+          - bash-completion
+          - udisks2
+          - podman
+          - skopeo # For copy the images to the local registry
+
+    - name: Setup environment (create missing /run/media)
+      become: yes
+      command:
+        cmd: systemd-tmpfiles --create
+        creates: /run/media
+
+    - name: Check versions of crucial packages
+      command: rpm -q golang podman crun conmon fuse-overlayfs flatpak-session-helper
+      register: versions
+      changed_when: no
+
+    - name: Show versions of crucial packages
+      debug:
+        var: versions.stdout_lines
+
+    - include_tasks: ./pre-common.yaml
+    - include_tasks: ./toolbox-mock-images.yml

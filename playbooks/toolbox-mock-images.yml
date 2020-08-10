@@ -1,0 +1,23 @@
+---
+- name: Set variables
+  set_fact:
+    toolbox_dirs:
+      "{{ toolbox_dirs }} + [ '{{ zuul.project.src_dir  }}/{{ toolbox_image }}-{{ item }}' ]"
+    registry_urls:
+      "{{ registry_urls }} + [ '{{ registry_url }}/{{ toolbox_image }}:{{ item }}' ]"
+  loop: "{{ fedora_versions }}"
+
+- name: Ensure the toolbox images are been pulled to the local registry
+  command: "podman pull {{ item }}"
+  register: _podman
+  until: _podman.rc == 0
+  retries: 5
+  delay: 10
+  loop: "{{ registry_urls }}"
+
+- name: Ensure the toolbox image is at local directory
+  command:
+    cmd: "skopeo copy containers-storage:{{ item.0 }} dir:{{ item.1 }}"
+    creates: "{{ item.1 }}/manifest.json"
+  register: _skopeo
+  loop: "{{ registry_urls | zip(toolbox_dirs) | list }}"
