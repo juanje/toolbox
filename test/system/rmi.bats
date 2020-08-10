@@ -13,7 +13,7 @@ teardown() {
 }
 
 
-@test "Remove all images with the default image present" {
+@test "rmi: Try to remove all images with the default image present" {
   num_of_images=$(list_images)
   create_default_container
   cleanup_containers
@@ -28,7 +28,7 @@ teardown() {
   assert_equal "$new_num_of_images" "$num_of_images"
 }
 
-@test "Fail to remove all images with the default image present and running" {
+@test "rmi: Try to remove all images with the default image present and running (it should fail)" {
   skip "The implementation need some fixes"
   num_of_images=$(list_images)
   create_container foo
@@ -46,7 +46,7 @@ teardown() {
   assert_equal "$new_num_of_images" "$num_of_images"
 }
 
-@test "Remove all images with the default image present and running (with flag --force)" {
+@test "rmi: Try to remove all images with the default image present and running (with flag --force)" {
   num_of_images=$(list_images)
   create_default_container
 

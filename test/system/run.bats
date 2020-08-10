@@ -20,7 +20,7 @@ teardown() {
 }
 
 
-@test "Echo 'Hello World' with no containers created (should fail)" {
+@test "run: Try to run echo 'Hello World' with no containers created (it should fail)" {
   run toolbox run echo "Hello World"
 
   assert_failure
@@ -30,7 +30,7 @@ teardown() {
 
 #TODO: This should work without --partial
 # The issue here is that toolbox output add the CRLF character at the end
-@test "Echo 'Hello World' inside of the default container" {
+@test "run: Try to run echo 'Hello World' inside of the default container" {
   create_default_container
 
   run toolbox --verbose run echo "Hello World"
@@ -39,7 +39,7 @@ teardown() {
   assert_output --partial "Hello World"
 }
 
-@test "Echo 'Hello World' inside of the 'running' container" {
+@test "run: Try to run echo 'Hello World' inside of the 'running' container" {
   create_container running
 
   run toolbox --verbose run --container running echo -n "Hello World"
@@ -48,7 +48,7 @@ teardown() {
   assert_output --partial "Hello World"
 }
 
-@test "Echo 'Hello World' again in the 'running' container after being stopped and exit" {
+@test "run: Try to run echo 'Hello World' again in the 'running' container after being stopped and exit" {
   create_container running
   stop_container running
 
@@ -58,7 +58,7 @@ teardown() {
   assert_output --partial "Hello World"
 }
 
-@test "Run sudo (with no passowrd) inside of the default container" {
+@test "run: Try to run sudo (with no passowrd) inside of the default container" {
   skip "This is a new test and fails due a bug: #523"
   create_default_container
 

@@ -3,7 +3,7 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-@test "Show usage screen when no command is given" {
+@test "help: Try to run toolbox with no command (it should fail and show usage screen)" {
   run toolbox
 
   assert_failure
@@ -11,16 +11,24 @@ load 'libs/bats-assert/load'
   assert_output --partial "Run 'toolbox --help' for usage."
 }
 
-@test "Show usage screen when command help is given" {
+@test "help: Try command 'help' (it should show usage screen)" {
   run toolbox help
 
   assert_success
   assert_output --partial "toolbox - Unprivileged development environment"
 }
 
-@test "Show usage screen when flag --help is given" {
+@test "help: Try flag '--help' (it should show usage screen)" {
   run toolbox --help
 
   assert_success
   assert_output --partial "toolbox - Unprivileged development environment"
+}
+
+@test "help: Try non-existent command (it should fail and show the usage screen)" {
+  run toolbox foo
+
+  assert_failure
+  assert_line --index 0 "Error: unknown command \"foo\" for \"toolbox\""
+  assert_line --index 1 "Run 'toolbox --help' for usage."
 }

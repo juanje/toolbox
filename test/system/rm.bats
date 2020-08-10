@@ -13,7 +13,7 @@ teardown() {
 }
 
 
-@test "Try to remove a nonexistent container" {
+@test "rm: Try to remove a non-existent container (it should fail)" {
   container_name="nonexistentcontainer"
   run toolbox rm "$container_name"
 
@@ -21,7 +21,7 @@ teardown() {
   assert_output "Error: failed to inspect container $container_name"
 }
 
-@test "Try to remove the running container 'running'" {
+@test "rm: Try to remove a running container named 'running' (it should fail)" {
   create_container running
   start_container running
 
@@ -31,7 +31,7 @@ teardown() {
   assert_output "Error: container running is running"
 }
 
-@test "Remove the not running container 'not-running'" {
+@test "rm: Try to remove a not running container named 'not-running'" {
   create_container not-running
 
   run toolbox rm not-running
@@ -40,7 +40,7 @@ teardown() {
   assert_output ""
 }
 
-@test "Force remove the running container 'running'" {
+@test "rm: Try to force remove the running container 'running'" {
   create_container running
   start_container running
 
@@ -50,7 +50,7 @@ teardown() {
   assert_output ""
 }
 
-@test "Force remove all remaining containers (with 2 containers created and 1 running)" {
+@test "rm: Try to force remove all remaining containers (with 2 containers created and 1 running)" {
   num_of_containers=$(list_containers)
   create_container running
   create_container not-running

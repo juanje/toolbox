@@ -19,9 +19,16 @@ $ git clone https://github.com/ztombol/bats-support test/system/libs/bats-suppor
 
 ## Convention
 
-- All tests that start with *Try to..* expect non-zero return value.
+- All tests should follow the nomenglature: "[command]: Try to...".
+- When the test is expected to fail or give a non obvious output, it should be put in parentesis at the end of the title.
+
+Examples:
+* `@test "create: Try to create the default container"`
+* `@test "rm: Try to remove a non-existent container (it should fail)"`
+
+
 - All the tests start with a clean system (no images or containers) to make sure
-that there are no dependencies between tests and they are really isolated.
+that there are no dependencies between tests and they are really isolated. Use the `setup()` and `teardown()` functions for that purpose.
 
 ## How to run the tests
 

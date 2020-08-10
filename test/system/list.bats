@@ -13,28 +13,28 @@ teardown() {
 }
 
 
-@test "Run list with zero containers and zero images" {
+@test "list: Try to run 'list' with zero containers and zero images (the list should be empty)" {
   run toolbox list
 
   assert_success
   assert_output ""
 }
 
-@test "Run list with zero containers (-c flag)" {
+@test "list: Try to list the containers (-c flag) with zero containers (the list should be empty)" {
   run toolbox list -c
 
   assert_success
   assert_output ""
 }
 
-@test "Run list with zero images (-i flag)" {
+@test "list: Try to list the images (-i flag) with zero images (the list should be empty)" {
   run toolbox list -c
 
   assert_success
   assert_output ""
 }
 
-@test "Run list with zero toolbox's containers and images, but other image" {
+@test "list: Try to list images and containers (no flag) with zero toolbox's containers and images, but other image (the list should be empty)" {
   get_busybox_image
 
   run podman images
@@ -47,7 +47,7 @@ teardown() {
   assert_output ""
 }
 
-@test "Run list with three containers and two images" {
+@test "list: Try to list images and containers (no flag) with 3 containers and 2 images (the list should have 3 images and 2 containers)" {
   # Pull the two images
   pull_default_image
   pull_image 29
