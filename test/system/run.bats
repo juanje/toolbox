@@ -57,3 +57,12 @@ teardown() {
   assert_success
   assert_output --partial "Hello World"
 }
+
+@test "Run sudo (with no passowrd) inside of the default container" {
+  create_default_container
+
+  run toolbox --verbose run sudo id
+
+  assert_success
+  assert_output --partial "uid=0(root)"
+}
