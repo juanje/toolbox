@@ -5,10 +5,9 @@
     fedora_versions:
       - 29
       - "{{ ansible_distribution_version }}"
-    registry_url: "docker.io/juanje"
-    toolbox_image: "fedora-toolbox"
+    registry_url: "registry.fedoraproject.org"
+    toolbox_images: []
     toolbox_dirs: []
-    registry_urls: []
 
   tasks:
     - name: Install requirements

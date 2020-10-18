@@ -2,9 +2,9 @@
 - name: Set variables
   set_fact:
     toolbox_dirs:
-      "{{ toolbox_dirs }} + [ '{{ zuul.project.src_dir  }}/{{ toolbox_image }}-{{ item }}' ]"
-    registry_urls:
-      "{{ registry_urls }} + [ '{{ registry_url }}/{{ toolbox_image }}:{{ item }}' ]"
+      "{{ toolbox_dirs }} + [ '{{ zuul.project.src_dir  }}/fedora-toolbox-{{ item }}' ]"
+    toolbox_images:
+      "{{ toolbox_images }} + [ '{{ registry_url }}/f{{ item }}/fedora-toolbox:{{ item }}' ]"
   loop: "{{ fedora_versions }}"
 
 - name: Ensure the toolbox images are been pulled to the local registry
@@ -13,14 +13,14 @@
   until: _podman.rc == 0
   retries: 5
   delay: 10
-  loop: "{{ registry_urls }}"
+  loop: "{{ toolbox_images }}"
 
 - name: Ensure the toolbox image is at local directory
   command:
     cmd: "skopeo copy containers-storage:{{ item.0 }} dir:{{ item.1 }}"
     creates: "{{ item.1 }}/manifest.json"
   register: _skopeo
-  loop: "{{ registry_urls | zip(toolbox_dirs) | list }}"
+  loop: "{{ toolbox_images | zip(toolbox_dirs) | list }}"
 
 - name: Clean up the local registry
   command: podman system reset --force
