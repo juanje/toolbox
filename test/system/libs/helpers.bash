@@ -25,7 +25,7 @@ function cleanup_containers() {
 
 function get_busybox_image() {
   $PODMAN pull "$BUSYBOX_IMAGE" >/dev/null \
-    || echo "Podman couldn't pull the image."
+    || fail "Podman couldn't pull the image."
 }
 
 
@@ -58,7 +58,7 @@ function create_container() {
 
   $TOOLBOX --assumeyes create --container "$container_name" \
     --image "$image" >/dev/null \
-    || echo "Toolbox couldn't create the container '$container_name'"
+    || fail "Toolbox couldn't create the container '$container_name'"
 }
 
 
@@ -72,7 +72,7 @@ function start_container() {
   container_name="$1"
 
   $PODMAN start "$container_name" >/dev/null \
-    || echo "Podman couldn't start the container '$container_name'"
+    || fail "Podman couldn't start the container '$container_name'"
 }
 
 
@@ -80,8 +80,11 @@ function stop_container() {
   local container_name
   container_name="$1"
 
+  # Make sure the container is running before trying to stop it
+  $PODMAN start "$container_name" >/dev/null \
+    || fail "Podman couldn't start the container '$container_name'"
   $PODMAN stop "$container_name" >/dev/null \
-    || echo "Podman couldn't stop the container '$container_name'"
+    || fail "Podman couldn't stop the container '$container_name'"
 }
 
 
