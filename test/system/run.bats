@@ -58,7 +58,7 @@ teardown() {
   assert_output --partial "Hello World"
 }
 
-@test "run: Try to run sudo (with no passowrd) inside of the default container" {
+@test "run: Try to run sudo (with no password) inside of the default container" {
   create_default_container
 
   run toolbox --verbose run sudo id
