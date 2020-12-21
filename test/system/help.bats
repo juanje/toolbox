@@ -3,7 +3,7 @@
 load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 
-@test "help: Try to run toolbox with no command (it should fail and show usage screen)" {
+@test "help: Try to run toolbox with no command (shows usage screen)" {
   run toolbox
 
   assert_failure
@@ -11,21 +11,21 @@ load 'libs/bats-assert/load'
   assert_output --partial "Run 'toolbox --help' for usage."
 }
 
-@test "help: Try command 'help' (it should show usage screen)" {
+@test "help: Run command 'help'" {
   run toolbox help
 
   assert_success
   assert_output --partial "toolbox - Unprivileged development environment"
 }
 
-@test "help: Try flag '--help' (it should show usage screen)" {
+@test "help: Use flag '--help' (it should show usage screen)" {
   run toolbox --help
 
   assert_success
   assert_output --partial "toolbox - Unprivileged development environment"
 }
 
-@test "help: Try non-existent command (it should fail and show the usage screen)" {
+@test "help: Try to run toolbox with non-existent command (shows usage screen)" {
   run toolbox foo
 
   assert_failure

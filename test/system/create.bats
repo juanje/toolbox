@@ -13,7 +13,7 @@ teardown() {
 }
 
 
-@test "create: Try to create the default container" {
+@test "create: Create the default container" {
   pull_default_image
 
   run toolbox -y create
@@ -21,21 +21,21 @@ teardown() {
   assert_success
 }
 
-@test "create: Try to create a container with a valid custom name ('not-running')" {
-  run toolbox -y create -c "not-running"
+@test "create: Create a container with a valid custom name ('custom-containerName')" {
+  run toolbox -y create -c "custom-containerName"
 
   assert_success
 }
 
-@test "create: Try to create a container with a custom image and name ('running';f29)" {
+@test "create: Create a container with a custom image and name ('fedora29';f29)" {
   pull_image 29
 
-  run toolbox -y create -c "running" -i fedora-toolbox:29
+  run toolbox -y create -c "fedora29" -i fedora-toolbox:29
 
   assert_success
 }
 
-@test "create: Try to create a container with invalid custom name (it should fail)" {
+@test "create: Try to create a container with invalid custom name ('ßpeci@l.Nam€')" {
   run toolbox -y create -c "ßpeci@l.Nam€"
 
   assert_failure

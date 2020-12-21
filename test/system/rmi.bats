@@ -13,10 +13,11 @@ teardown() {
 }
 
 
-@test "rmi: Try to remove all images with the default image present" {
+@test "rmi: Remove all images with the default image present" {
   num_of_images=$(list_images)
-  create_default_container
-  cleanup_containers
+  assert [ $num_of_images -eq 0 ]
+
+  pull_default_image
 
   run toolbox rmi --all
 
@@ -28,27 +29,30 @@ teardown() {
   assert_equal "$new_num_of_images" "$num_of_images"
 }
 
-@test "rmi: Try to remove all images with the default image present and running (it should fail)" {
-  skip "The implementation need some fixes"
+@test "rmi: Try to remove all images with a container present and running" {
+  skip "Bug: Fail in 'toolbox rmi' does not return non-zero value"
   num_of_images=$(list_images)
+  assert [ $num_of_images -eq 0 ]
+
   create_container foo
   start_container foo
 
   run toolbox rmi --all
 
-  #FIXME: this should fail
-  #assert_failure
-  #TODO: Maybe a bug -> need better error message
-  assert_output "Error: the image foo is in use"
+  assert_failure
+  assert_output --regexp "Error: image .* has dependent children"
 
   new_num_of_images=$(list_images)
 
   assert_equal "$new_num_of_images" "$num_of_images"
 }
 
-@test "rmi: Try to remove all images with the default image present and running (with flag --force)" {
+@test "rmi: Force remove all images with a container present and running" {
   num_of_images=$(list_images)
-  create_default_container
+  assert [ $num_of_images -eq 0 ]
+
+  create_container foo
+  start_container foo
 
   run toolbox rmi --all --force
 
