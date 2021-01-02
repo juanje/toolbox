@@ -11,8 +11,7 @@ Running the tests will clear all podman state (delete all containers, images etc
 
 ## Dependencies
 
-These tests use a few standard libraries for BATS which help with clarity
-and consistency. In order to use it you need to download them to the `libs`
+Running the tests requites that `bats`, `podman`, and `skopeo` are installed on your system. Additionally these tests use a few libraries for BATS. In order to use it you need to download them to the `libs`
 directory:
 
 ```
@@ -36,7 +35,7 @@ that there are no dependencies between tests and they are really isolated. Use t
 
 ## How to run the tests
 
-Make sure you have `bats` and `podman` with `toolbox` installed on your system.
+Make sure you have `bats`, `podman`, `toolbox` and `skopeo` installed on your system.
 
 - Enter the toolbox root folder
 - Invoke command `bats ./test/system/` and the test suite should fire up
