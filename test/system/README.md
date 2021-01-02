@@ -5,6 +5,10 @@ These tests are built with BATS (Bash Automated Testing System).
 The tests are meant to ensure that Toolbox's functionality remains stable
 throughout updates of both Toolbox and Podman/libpod.
 
+## WARNING
+
+Running the tests will clear all podman state (delete all containers, images etc). This is done to ensure the results of test results are reproducible. TODO: there must be a better way.
+
 ## Dependencies
 
 These tests use a few standard libraries for BATS which help with clarity
