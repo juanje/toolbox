@@ -53,7 +53,7 @@ teardown() {
 
 @test "rm: Force remove all containers (with 2 containers created and 1 running)" {
   num_of_containers=$(list_containers)
-  assert [ $num_of_container -eq 0 ]
+  assert_equal "$num_of_containers" 0
 
   create_container running
   create_container not-running
