@@ -38,6 +38,7 @@ that there are no dependencies between tests and they are really isolated. Use t
 Make sure you have `bats`, `podman`, `toolbox` and `skopeo` installed on your system.
 
 - Enter the toolbox root folder
+- Prepare container images. See [playbooks/toolbox-mock-images.yml](../../playbooks/toolbox-mock-images.yml)
 - Invoke command `bats ./test/system/` and the test suite should fire up
 
 By default the test suite uses the system versions of `podman` and `toolbox`.
